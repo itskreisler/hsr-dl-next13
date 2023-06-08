@@ -1,32 +1,20 @@
 'use client'
-import { useRef } from 'react'
-import styles from './page.module.css'
+// import styles from './styles/page.module.css'
+
+import TagHeader from './components/TagHeader'
+import TagPre from './components/TagPre'
+import { useAppStore } from './store/storeApp'
 
 export default function Home () {
-  const refForm = useRef(null)
-  const onSubmit = async (event) => {
-    event.preventDefault()
-    const formData = Object.fromEntries(new FormData(refForm.current))
-    const response = await fetch('/api/hello', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(formData)
-    })
-    const respuesta = await response.json()
-    console.log({ respuesta })
-  }
-
+  const dataHsr = useAppStore(state => state.dataHsr)
   return (
-    <main className={styles.main}>
-      <form onSubmit={onSubmit} ref={refForm}>
+    <main className='container'>
+      <TagHeader />
+      <div className='grid'>
         <div>
-          <label htmlFor='url'>url</label>
-          <input id='url' name='url' type='text' required />
+          <TagPre json={dataHsr} />
         </div>
-        <div>
-          <button type='submit'>Submit</button>
-        </div>
-      </form>
+      </div>
     </main>
   )
 }
