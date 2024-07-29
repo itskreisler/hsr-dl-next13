@@ -13,7 +13,7 @@ export const useAppStore = create((set, get) => ({
 export const useAppLocalStore = create(
   persist(
     (set, get) => ({
-      apiUrl: '',
+      apiUrl: 'https://hkrpg-launcher.hoyoverse.com/hkrpg_global/mdk/launcher/api/resource?launcher_id=35&key=vplOVX8Vn7cwG8yb',
       // dataHsr: {},
       setApiUrl: (url) => set({ apiUrl: url }),
       fetchApiUrl: async () => {
