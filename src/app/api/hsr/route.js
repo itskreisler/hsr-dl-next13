@@ -1,7 +1,12 @@
 import { NextResponse } from 'next/server'
-export async function POST (request) {
+/**
+ *
+ * @param {import('next/server').NextRequest} request
+ * @returns
+ */
+async function Api (request) {
   const { url } = await request.json()
-  if (!url) {
+  if (typeof url === 'undefined') {
     return NextResponse.json({ error: 'url', message: 'Url is required' })
   }
   try {
@@ -16,9 +21,23 @@ export async function POST (request) {
       credentials: 'omit',
       referrerPolicy: 'no-referrer'
     })
-    const data = await peticion.json()
+    const [error, data] = (async () => {
+      try {
+        return [null, await peticion.json()]
+      } catch (e) {
+        return [e, null]
+      }
+    })()
+    if (error) return NextResponse.json({ html: peticion.text() })
     return NextResponse.json(data)
   } catch (error) {
     return NextResponse.error(error, { status: 500 })
   }
+}
+
+export async function POST (request) {
+  return Api(request)
+}
+export async function GET (request) {
+  return Api(request)
 }
